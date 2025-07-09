@@ -58,4 +58,4 @@ This project is based on and inspired by the [\_transcribe\_ project by cyberboy
 This project is open source and released under the MIT License.  
 See [LICENSE](LICENSE) for details.
 
-**If you use, modify, or build on this project, please acknowledge both this repository and the original [_transcribe_ project by cyberboy666](https://github.com/cyberboy666/_transcribe_).**
+**If you use, modify, or build on this project, please acknowledge this repository.**
