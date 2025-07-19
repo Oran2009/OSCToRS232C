@@ -1,10 +1,11 @@
 #include "commands.h"
-
 #include "globals.h" // For DEBUG
 
 char cmd[14] = {};
-static uint8_t switchStore[20] = {};
-static uint8_t paramStore[127] = {};
+static uint8_t switchStore[20];
+static uint8_t paramStore[127];
+
+extern HardwareSerial &RS232C_SERIAL;
 
 void setCmd(const char *inputCmd, uint8_t inputParam) {
   strcpy(cmd, inputCmd);
@@ -88,15 +89,21 @@ void setCmdToggle(const char *inputCmd, uint8_t maxValue, uint8_t switchIndex) {
   switchStore[switchIndex] = (switchStore[switchIndex] + 1) % maxValue;
 }
 
-void sendCmd(HardwareSerial &s) {
+void sendCmd() {
   if (cmd[0] == 0)
     return;
-  s.write(2);
-  s.write(cmd);
-  s.write(3);
+  RS232C_SERIAL.write(2);
+  RS232C_SERIAL.write(cmd);
+  RS232C_SERIAL.write(3);
   if (DEBUG) {
-    Serial.print("Sent to serial: ");
+    Serial.print("Sent to RS232C_SERIAL: ");
     Serial.println(cmd);
+
+    while (RS232C_SERIAL.available()) {
+      char c = RS232C_SERIAL.read();
+      Serial.print(c);
+    }
+    Serial.println();
   }
-  cmd[0] = 0;
+  memset(cmd, 0, sizeof(cmd));
 }
