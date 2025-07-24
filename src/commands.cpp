@@ -5,8 +5,6 @@ char cmd[14] = {};
 static uint8_t switchStore[20];
 static uint8_t paramStore[127];
 
-extern HardwareSerial &RS232C_SERIAL;
-
 void setCmd(const char *inputCmd, uint8_t inputParam) {
   strcpy(cmd, inputCmd);
   for (uint8_t i = 0; i < 11; i++) {
@@ -95,15 +93,6 @@ void sendCmd() {
   RS232C_SERIAL.write(2);
   RS232C_SERIAL.write(cmd);
   RS232C_SERIAL.write(3);
-  if (DEBUG) {
-    Serial.print("Sent to RS232C_SERIAL: ");
-    Serial.println(cmd);
-
-    while (RS232C_SERIAL.available()) {
-      char c = RS232C_SERIAL.read();
-      Serial.print(c);
-    }
-    Serial.println();
-  }
+  RS232C_SERIAL.flush();
   memset(cmd, 0, sizeof(cmd));
 }
